@@ -35,23 +35,45 @@ btnDown.onclick = function(){
     if(vid.volume>0){ vid.volume -= 0.1; }
 }
 
-//lista de vídeos
+//canais
+var canal = document.getElementsByClassName('btcanais');
+var tabs = document.getElementsByClassName('tabs');
+var tabAtiva;
 
+//alternando a classe active nos botões
+for(var x=0; x < canal.length; x++){
+    canal[x].onclick = function(){
+        //removendo a classe active dos outros botões
+        for(var y=0; y < canal.length; y++){
+            canal[y].className = 'btcanais';
+        }
+        //inserindo a classe active no botão clicado
+        this.className = 'btcanais active';
+        tabAtiva = this.getAttribute('data-tab');
+        console.log('Tab Ativa ID: ', tabAtiva);
+        
+        //mudança de canal
+        for(var z=0; z < tabs.length; z++){
+            var tabId = tabs[z].id;
+            console.log('Tab id: ',tabId);
+            //adicionando a class active na tab que possui o id igual ao atributo data-tab do botão
+            if(tabId == tabAtiva){
+                tabs[z].className = 'tabs active';
+                console.log('Tab id: ',tabId,' Tab Ativa: ',tabAtiva);
+            }else{
+                tabs[z].className = 'tabs';    
+            }
+        }
+    }
+}
+
+//lista de vídeos
 var vid1, vid2, vid3;
-//canal 1
+
 vid1 = 'video/video1_big_buck_bunny.webm';
 vid2 = 'video/video2_toystory.webm';
 vid3 = 'video/video1_big_buck_bunny.webm';
 
-//canal 2
-vid4 = 'video/video1_big_buck_bunny.webm';
-vid5 = 'video/video2_toystory.webm';
-vid6 = 'video/video1_big_buck_bunny.webm';
-
-//canal 3
-vid7 = 'video/video1_big_buck_bunny.webm';
-vid8 = 'video/video2_toystory.webm';
-vid9 = 'video/video1_big_buck_bunny.webm';
 
 //troca de vídeos
 var thumbVideo = document.getElementsByClassName('thumbvideo');

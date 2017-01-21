@@ -7,7 +7,7 @@ html, body {
 
 /*
 |----------------------------------------------
-| variaveis
+| Reset
 |----------------------------------------------
 */
 .container {
@@ -29,6 +29,8 @@ html, body {
 
 .fleft{float: left;}
 .fright{ float: right;}
+
+li{ list-style: none;}
 
 /*
 |----------------------------------------------
@@ -82,7 +84,19 @@ html, body {
 | sections
 |----------------------------------------------
 */
-.tabs{ display: block; height: 100%;}
+.listCanais{ margin-bottom: 30px;}
+.btcanais{
+    background: #999;
+    padding: 5px 10px;
+    float: left;
+    margin-right: 15px;
+    color: white;
+}
+.btcanais:hover{ background: black; cursor: pointer;}
+
+.tabs{ display: none; height: 100%;}
+.tabs.active{display: block;}
+
 .video {
   width: 640px;
   height: 510px;
