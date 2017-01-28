@@ -14,105 +14,49 @@
     <div class="container cf">
         
     <ul class="listCanais cf">
-        <li data-tab="tab1" class="btcanais active">Canal 1</li>  
-        <li data-tab="tab2" class="btcanais">Canal 2</li>    
-        <li data-tab="tab3" class="btcanais">Canal 3</li>    
+        <li data-number="1" class="btcanais active">Canal 1</li>  
+        <li data-number="2" class="btcanais">Canal 2</li>    
+        <li data-number="3" class="btcanais">Canal 3</li>    
     </ul>
         
     <div id="content-video">
-        <div id="loader"><span class="spinner"></span></div>
+<!--        <div id="loader"><span class="spinner"></span></div>-->
         
-        <div id="tab1" class="tabs active">
-            <h1 class="canalTitle">Canal 1</h1>
+        <h1 class="canalTitle">Canal 1</h1>
         <div class="video">
-            <video id="video" width="640" height="480" controls="true" preload="false">
-                <source src="video/video1_big_buck_bunny.webm" data-tipo="webm" type="video/webm">
-<!--                <source src="video/video1_big_buck_bunny.ogv" data-tipo="ogv" type="video/ogg"> -->
+            <video id="video" width="640" height="480" controls="true" autoplay="true">
+                <source src="https://ia601407.us.archive.org/32/items/ChronoTrigger_456/ChronoTrigger_456_part01.ogv" data-tipo="ogv" type="video/ogg">
             </video>
+            
             <div id="down_volume">-</div>
             <div id="up_volume">+</div>
         </div>
         
-        <div class="fleft col-videos">
+<!--
+        <aside class="fleft col-videos">
             <div class="thumbvideo" data-video="video1">
-<!--            <img src="img/thumbvideo1.jpg" class="fleft thumb" />-->
+            <img src="img/thumbvideo1.jpg" class="fleft thumb" />
                 <div class="video_title">Video 1 - Big Buck Bunny</div>
             </div>
 
             <div class="thumbvideo" data-video="video2">
-<!--            <img src="img/thumbvideo2.jpg" class="fleft thumb" />-->
+            <img src="img/thumbvideo2.jpg" class="fleft thumb" />
                 <div class="video_title">Video 2 - Toy Story</div>
             </div>
 
             <div class="thumbvideo" data-video="video3">
-<!--            <img src="img/thumbvideo3.jpg" class="fleft thumb" />-->
+            <img src="img/thumbvideo3.jpg" class="fleft thumb" />
                 <div class="video_title">Video 3 - Big Buck Bunny</div>
             </div>
-        </div>
-        </div><!-- fim da primeira tab-->
-        
-        <div id="tab2" class="tabs">
-            <h1 class="canalTitle">Canal 2</h1>
-        <div class="video">
-            <video id="video" width="640" height="480" controls="true" preload="false">
-                <source src="video/video2_toystory.webm" data-tipo="webm" type="video/webm">
-<!--                <source src="video/video1_big_buck_bunny.ogv" data-tipo="ogv" type="video/ogg"> -->
-            </video>
-            <div id="down_volume">-</div>
-            <div id="up_volume">+</div>
-        </div>
-        
-        <div class="fleft col-videos">
-            <div class="thumbvideo" data-video="video1">
-<!--            <img src="img/thumbvideo1.jpg" class="fleft thumb" />-->
-                <div class="video_title">Video 1 - Big Buck Bunny</div>
-            </div>
+        </aside>
+-->
 
-            <div class="thumbvideo" data-video="video2">
-<!--            <img src="img/thumbvideo2.jpg" class="fleft thumb" />-->
-                <div class="video_title">Video 2 - Toy Story</div>
-            </div>
-
-            <div class="thumbvideo" data-video="video3">
-<!--            <img src="img/thumbvideo3.jpg" class="fleft thumb" />-->
-                <div class="video_title">Video 3 - Big Buck Bunny</div>
-            </div>
-        </div>
-        </div><!-- fim da segunda tab-->
-        
-        <div id="tab3" class="tabs">
-            <h1 class="canalTitle">Canal 3</h1>
-        <div class="video">
-            <video id="video" width="640" height="480" controls="true" preload="false">
-                <source src="video/video1_big_buck_bunny.webm" data-tipo="webm" type="video/webm">
-<!--                <source src="video/video1_big_buck_bunny.ogv" data-tipo="ogv" type="video/ogg"> -->
-            </video>
-            <div id="down_volume">-</div>
-            <div id="up_volume">+</div>
-        </div>
-        
-        <div class="fleft col-videos">
-            <div class="thumbvideo" data-video="video1">
-<!--            <img src="img/thumbvideo1.jpg" class="fleft thumb" />-->
-                <div class="video_title">Video 1 - Big Buck Bunny</div>
-            </div>
-
-            <div class="thumbvideo" data-video="video2">
-<!--            <img src="img/thumbvideo2.jpg" class="fleft thumb" />-->
-                <div class="video_title">Video 2 - Toy Story</div>
-            </div>
-
-            <div class="thumbvideo" data-video="video3">
-<!--            <img src="img/thumbvideo3.jpg" class="fleft thumb" />-->
-                <div class="video_title">Video 3 - Big Buck Bunny</div>
-            </div>
-        </div>
-        </div><!-- fim da terceira tab-->
     </div>
 
     </div>
 </article>
 
+    <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
 </body>
 </html>

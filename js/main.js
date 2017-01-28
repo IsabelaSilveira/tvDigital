@@ -1,148 +1,126 @@
-//tempo
-var time_inicial = new Date();
-time_inicial = time_inicial.getTime();
+var allCH,                      //array com todos os canais
+    ch1,                        //array com todos os vídeo do canal 1
+    ch2,                        //array com todos os vídeo do canal 2
+    ch3,                        //array com todos os vídeo do canal 3
+    ch_current = 0,             //canal atual
+    video_current = 0,          //vídeo atual
+    chClick,                    //identificador do botão do canal
+    time_initial = new Date(),  //tempo inicial
+    time_current,               //tempo atual
+    numberCanal;                //número do canal
 
 
-function loader(){
-    //função que verifica se o vídeo foi carregado 
-    var videoAtivo = document.querySelector('.tabs.active video'); 
-    //console.log(videoAtivo);
-    var loadAnimation = document.getElementById('loader');
-
-    videoAtivo.addEventListener('loadeddata', function() {
-
-        if(videoAtivo.readyState >= 3) {
-            setTimeout(function(){
-                loadAnimation.style.display='none'; 
-                videoAtivo.style.display='block'; 
-                videoAtivo.play();
-            },300);
-        }else{
-            loadAnimation.style.display='block'; 
-            videoAtivo.style.display='none';
-        }
-
-    });
+//função para mudança de canais
+function changeCH(){
+    video.src = allCH[ch_current+=1][video_current];
 }
-loader();
 
-function opcoesTAB(){
-    var vid = document.querySelector('.tabs.active video');
+function main(){
+    //evento de carregar video
+    video.onloadeddata = function(){
+        var delta_time = (time_current.getTime()-time_initial.getTime())/1000;
+        if(video.duration > delta_time)
+            video.currentTime = delta_time;
+        else{
+            delta_time-=video.duration;
+            changeCH();
+        }
+    }
     
-    //volume
-    var btnUp = document.querySelector('.tabs.active #up_volume');
-    btnUp.style.background='#F00';
-
-    var btnDown = document.querySelector('.tabs.active #down_volume');
-    btnDown.style.background='#00F';
-
-    btnUp.onclick = function(){
-        if(vid.volume<1){ vid.volume += 0.1; }
-    }
-    btnDown.onclick = function(){
-        if(vid.volume>0){ vid.volume -= 0.1; }
-    }
-}
-opcoesTAB();
-
-function videoLoop(){
-    var videoPlayer = document.querySelector('.tabs.active video');
-    var videoSource = document.querySelector('.tabs.active source');
-    var video_list = ['video/video1.webm','video/video2.webm','video/video1.webm'];   
-    
-    for(var videoCount = 1; videoCount <= 3; videoCount++){
-        if(videoCount == 1){
-            videoPlayer.onended = function(){
-                videoSource.setAttribute("src", video_list[2]); 
-                console.log("Acabou o primeiro vídeo. Trocando para o segundo");
-                console.log(videoSource);
-                videoPlayer.load();
-            }  
-            videoPlayer.play();
-        }
-        if( videoCount == 2){
-            videoPlayer.onended = function(){
-                videoSource.setAttribute("src", video_list[3]);  
-                console.log("Acabou o segundo vídeo. Trocando para o terceiro");
-                console.log(videoSource);
-                videoPlayer.load();
-            }  
-            videoPlayer.play();
-        }
-        if( videoCount == 3){
-            videoPlayer.onended = function(){
-                videoSource.setAttribute("src", video_list[1]);  
-                console.log("Acabou o terceiro vídeo. Trocando para o primeiro");
-                console.log(videoSource);
-                videoPlayer.load();
-            }     
-            videoPlayer.play();
-        }
-    }
-}
-videoLoop();
-
-//canais
-var canal = document.getElementsByClassName('btcanais');
-var tabs = document.getElementsByClassName('tabs');
-var tabAtiva;
-
-//alternando a classe active nos botões
-for(var x=0; x < canal.length; x++){
-    canal[x].onclick = function(){
-        //removendo a classe active dos outros botões
-        for(var y=0; y < canal.length; y++){
-            canal[y].className = 'btcanais';
-        }
-        //inserindo a classe active no botão clicado
-        this.className = 'btcanais active';
-        tabAtiva = this.getAttribute('data-tab');
-        //console.log('Tab Ativa ID: ', tabAtiva);
+    //mudando de canal com o evento de click
+    chClick = $(".btcanais").click(function(){
+        //pegando o tempo atual
+        time_current = new Date();
         
-        //mudança de canal
-        for(var z=0; z < tabs.length; z++){
-            var tabId = tabs[z].id;
-            //console.log('Tab id: ',tabId);
-            //adicionando a class active na tab que possui o id igual ao atributo data-tab do botão
-            if(tabId == tabAtiva){
-                tabs[z].className = 'tabs active';
-                //console.log('Tab id: ',tabId,' Tab Ativa: ',tabAtiva);
-                opcoesTAB();
-                videoLoop();
-            }else{
-                tabs[z].className = 'tabs';    
-            }
+        numberCanal = $(this).attr('data-number');
+        $('.canalTitle').html('Canal ',numberCanal);
+        
+        console.log('Número do canal ', numberCanal);
+        
+        //chamando a função de troca de canais
+        changeCH();
+        
+        //deixando o botão ativo
+        $(".bt-canais").removeClass('active');
+        $(this).addClass('active');
+    });
+    
+    //mudando de vídeo quando o vídeo atual chega ao fim
+    video.onended = function(){
+        video_current+=1
+        
+        //se o vídeo atual for o último a lista de vídeo, retorna para o primeiro vídeo
+        if(video_current>=allCH[ch_current].length){
+            video_current = 0;
         }
+        //passa a url do vídeo
+        video.src = allCH[ch_current][video_current];
     }
-}
+    
+    //listando canais e vídeos
+    allCH = new Array();
+    
+    //setando os vídeos de cada canal
+    ch1 = [
+            'https://ia601407.us.archive.org/32/items/ChronoTrigger_456/ChronoTrigger_456_part01.ogv',
+            'https://ia800300.us.archive.org/24/items/MortalKombatSM_14337/MortalKombatSM_14337_HQ_part01.ogv',
+            'https://ia801408.us.archive.org/11/items/GrandTheftAutoSA_746/GrandTheftAutoSA_746_LQ_part01.ogv'
+          ];
+    ch2 = [
+            'https://ia800501.us.archive.org/11/items/popeye_i_dont_scare/popeye_i_dont_scare.ogv',
+            'https://ia800302.us.archive.org/31/items/woody_woodpecker_pantry_panic/woody_woodpecker_pantry_panic.ogv',
+            'https://ia800303.us.archive.org/9/items/superman_1941/superman_1941.ogv'
+          ];
+    ch3 = [
+            'https://ia601203.us.archive.org/7/items/2012Trailer/2012Trailer.ogv',
+            'https://ia601401.us.archive.org/18/items/50FirstDatesTrailer/50FirstDatesTrailer.ogv',
+            'https://ia601205.us.archive.org/22/items/ASeriesOfUnfortunateEventsTrailer/ASeriesOfUnfortunateEventsTrailer.ogv'
+          ];
+    
+    //puxando o conteúdo de cada canal
+    allCH.push(ch1);
+    allCH.push(ch2);
+    allCH.push(ch3);
+} 
+jQuery(document).ready(main);
 
 
-//lista de vídeos
-var vid1, vid2, vid3;
-
-vid1 = 'video/video1_big_buck_bunny.webm';
-vid2 = 'video/video2_toystory.webm';
-vid3 = 'video/video1_big_buck_bunny.webm';
-
-
-//troca de vídeos
-var thumbVideo = document.getElementsByClassName('thumbvideo');
-//percorre todas as div com a classe desejada e cria um evento de click
-for(var count=0; count < thumbVideo.length; count++){    
-    thumbVideo[count].onclick = function(){
-        var numberVideo = this.getAttribute('data-video');
-        //console.log("Número do vídeo atual: ",numberVideo);
-        if(numberVideo=='video1'){ 
-            videoAtivo.src=vid1; 
-            //console.log("Trocando para o primeiro vídeo"); 
-        }
-        if(numberVideo=='video2'){ 
-            videoAtivo.src=vid2; 
-            //console.log("Trocando para o segundo vídeo"); 
-        }
-        if(numberVideo=='video3'){ 
-            videoAtivo.src=vid3; 
-            //console.log("Trocando para o terceiro vídeo"); 
-        }
-    }
-}
+//var channels, ch_jogos, ch_misc, volume = 1, ch_current = 0, time_initial = new Date(), video_current = 0;
+//var change_up_channel;
+//var time_current;
+//function change_channel(){
+//    video.src = channels[ch_current+=1][video_current];
+//}
+//function main(){
+    // evento de carregar video
+//    video.onloadeddata = function(){
+//        var delta_time = (time_current.getTime()-time_initial.getTime())/1000;
+//        if(video.duration > delta_time)
+//            video.currentTime = delta_time;
+//        else{
+//            delta_time-=video.duration;
+//            change_channel();
+//        }
+//    }
+//
+//    // evento de clicar
+//    change_up_channel = $("input").click(function(){
+//        time_current = new Date();
+//        change_channel();
+//    })
+//
+//    video.onended = function(){
+//        video_current+=1
+//        if(video_current>=channels[ch_current].length)
+//            video_current = 0;
+//        video.src = channels[ch_current][video_current];
+//    }
+//
+//    channels = new Array();
+//    ch_jogos = ["https://ia801407.us.archive.org/32/items/ChronoTrigger_456/ChronoTrigger_456_part01.ogv", "https://ia802609.us.archive.org/33/items/StarOcean3_411/StarOcean3_411_HQ_part02.ogv"];
+//    ch_misc = ["https://ia801909.us.archive.org/10/items/electricsheep-flock-247-7500-8/00247=07508=07323=07315.ogv", "https://upload.wikimedia.org/wikipedia/commons/1/1b/001narod-idet-na-miting-24dek2011.ogv"];
+//    channels.push(ch_jogos);
+//    channels.push(ch_misc);
+//}
+//
+//$(document).ready(main);
