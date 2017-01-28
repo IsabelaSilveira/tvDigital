@@ -7,7 +7,10 @@ var allCH,                      //array com todos os canais
     chClick,                    //identificador do botão do canal
     time_initial = new Date(),  //tempo inicial
     time_current,               //tempo atual
-    numberCanal;                //número do canal
+    numberCanal,                //número do canal
+    volume = 1,                 //volume inicial
+    btnUp,                      //aumentar volume
+    btnDown;                    //diminuir o volume
 
 
 //função para mudança de canais
@@ -16,6 +19,7 @@ function changeCH(){
 }
 
 function main(){
+    
     //evento de carregar video
     video.onloadeddata = function(){
         var delta_time = (time_current.getTime()-time_initial.getTime())/1000;
@@ -26,6 +30,35 @@ function main(){
             changeCH();
         }
     }
+
+    //volume
+    btnUp = $('#up_volume');
+    btnDown = $('#down_volume');
+
+    btnUp.click(function(){
+        if(video.volume<1){ volume += 0.1; }
+        video.volume = volume;
+    });
+    btnDown.click(function(){
+        if(video.volume>0){ volume -= 0.1; }
+        video.volume = volume;
+    });
+    
+    //slide - customizado
+    $( "#volume" ).slider({
+        min: 1,
+        max: 100,
+        value: 100,
+        range: "min",
+        animate: true,
+        slide: function(event, ui) {
+          setVolume((ui.value) / 100);
+        }
+    });
+    
+    function setVolume(volumeAtual) {
+        video.volume = volumeAtual;
+    }
     
     //mudando de canal com o evento de click
     chClick = $(".btcanais").click(function(){
@@ -33,7 +66,7 @@ function main(){
         time_current = new Date();
         
         numberCanal = $(this).attr('data-number');
-        $('.canalTitle').html('Canal ',numberCanal);
+        $('.canalTitle').text('Canal '+numberCanal);
         
         console.log('Número do canal ', numberCanal);
         
@@ -83,44 +116,3 @@ function main(){
     allCH.push(ch3);
 } 
 jQuery(document).ready(main);
-
-
-//var channels, ch_jogos, ch_misc, volume = 1, ch_current = 0, time_initial = new Date(), video_current = 0;
-//var change_up_channel;
-//var time_current;
-//function change_channel(){
-//    video.src = channels[ch_current+=1][video_current];
-//}
-//function main(){
-    // evento de carregar video
-//    video.onloadeddata = function(){
-//        var delta_time = (time_current.getTime()-time_initial.getTime())/1000;
-//        if(video.duration > delta_time)
-//            video.currentTime = delta_time;
-//        else{
-//            delta_time-=video.duration;
-//            change_channel();
-//        }
-//    }
-//
-//    // evento de clicar
-//    change_up_channel = $("input").click(function(){
-//        time_current = new Date();
-//        change_channel();
-//    })
-//
-//    video.onended = function(){
-//        video_current+=1
-//        if(video_current>=channels[ch_current].length)
-//            video_current = 0;
-//        video.src = channels[ch_current][video_current];
-//    }
-//
-//    channels = new Array();
-//    ch_jogos = ["https://ia801407.us.archive.org/32/items/ChronoTrigger_456/ChronoTrigger_456_part01.ogv", "https://ia802609.us.archive.org/33/items/StarOcean3_411/StarOcean3_411_HQ_part02.ogv"];
-//    ch_misc = ["https://ia801909.us.archive.org/10/items/electricsheep-flock-247-7500-8/00247=07508=07323=07315.ogv", "https://upload.wikimedia.org/wikipedia/commons/1/1b/001narod-idet-na-miting-24dek2011.ogv"];
-//    channels.push(ch_jogos);
-//    channels.push(ch_misc);
-//}
-//
-//$(document).ready(main);
