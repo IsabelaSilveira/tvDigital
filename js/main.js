@@ -7,15 +7,26 @@ var allCH,                      //array com todos os canais
     chClick,                    //identificador do botão do canal
     time_initial = new Date(),  //tempo inicial
     time_current,               //tempo atual
-    numberCanal,                //número do canal
+    numberCanal = 1,            //número do canal
     volume = 1,                 //volume inicial
     btnUp,                      //aumentar volume
     btnDown,                    //diminuir o volume
 		videoTitle,									//informações dos vídeos 
 		videoDescription,
-		vid2_infos,
-		vid3_infos;
+		videoTime,
+		horas,
+		minutos,
+		segundos,
+		vidMinutos,
+		vidSegundos;
 
+var horario1, horario2, horaInicial, minutoInicial, segundoInicial;
+
+//tempo de duração de cada vídeo
+videoTime = new Array();
+videoTime[0] = new Array('06:48','05:53','30:11' );
+videoTime[1] = new Array('06:06','06:51','10:20' );
+videoTime[2] = new Array('00:33','02:31','1:47' );
 
 //função para mudança de canais
 function changeCH(){
@@ -30,6 +41,43 @@ function changeCH(){
 		}
 }
 
+function horario1(){
+		horas = time_initial.getHours();
+		minutos = time_initial.getMinutes();
+		$('#thumbvideo1 .video_horario').text('Horário:'+horas+':'+minutos);
+}
+horario1();
+function horario2(){
+		console.log(videoTime[numberCanal-1][0]);
+		horario1 = videoTime[numberCanal-1][0].split(':');
+		vidMinutos = parseInt(horario1[0]);
+		vidSegundos = parseInt(horario1[1]);
+		console.log('Horário do vídeo:'+vidMinutos+':'+vidSegundos);
+
+		horaInicial = time_initial.getHours();
+		minutoInicial = time_initial.getMinutes();
+		segundoInicial = time_initial.getSeconds();
+
+		horas = horaInicial;
+		minutos = minutoInicial + vidMinutos;
+		segundos = segundoInicial + vidSegundos;
+
+		console.log('Somando os minutos: '+minutoInicial+' + '+vidMinutos+'='+ minutos)
+
+		if(segundos == 59){
+				segundos =00;
+				minutos +=1;
+		}
+		if(minutos == 59){
+				minutos =00;
+				horas +=1;
+		}
+		console.log('Horário do segundo programa:'+horas+':'+minutos+':'+segundos);
+		$('#thumbvideo2 .video_horario').text('Horário:'+horas+':'+minutos);
+}
+
+horario2();
+
 function main(){
     
     //evento de carregar video
@@ -42,6 +90,8 @@ function main(){
             changeCH();
         }
     }
+		
+		
 
     //volume
     btnUp = $('#up_volume');
@@ -92,36 +142,23 @@ function main(){
         $(this).addClass('active');
 			
 				//infos sobre os vídeos
-				if(numberCanal == 1){
-						$('#thumbvideo1 .video_title').text(videoTitle[0][0]);
-						$('#thumbvideo2 .video_title').text(videoTitle[0][1]);
-						$('#thumbvideo3 .video_title').text(videoTitle[0][2]);
+				if(numberCanal){
+						$('#thumbvideo1 .video_title').text(videoTitle[numberCanal-1][0]);
+						$('#thumbvideo2 .video_title').text(videoTitle[numberCanal-1][1]);
+						$('#thumbvideo3 .video_title').text(videoTitle[numberCanal-1][2]);
 					
-						$('#thumbvideo1 .video_desc').text(videoDescription[0][0]);
-						$('#thumbvideo2 .video_desc').text(videoDescription[0][1]);
-						$('#thumbvideo3 .video_desc').text(videoDescription[0][2]);
-				}
-				if(numberCanal == 2){
-						$('#thumbvideo1 .video_title').text(videoTitle[1][0]);
-						$('#thumbvideo2 .video_title').text(videoTitle[1][1]);
-						$('#thumbvideo3 .video_title').text(videoTitle[1][2]);
+						$('#thumbvideo1 .video_desc').text(videoDescription[numberCanal-1][0]);
+						$('#thumbvideo2 .video_desc').text(videoDescription[numberCanal-1][1]);
+						$('#thumbvideo3 .video_desc').text(videoDescription[numberCanal-1][2]);
 					
-						$('#thumbvideo1 .video_desc').text(videoDescription[1][0]);
-						$('#thumbvideo2 .video_desc').text(videoDescription[1][1]);
-						$('#thumbvideo3 .video_desc').text(videoDescription[1][2]);
-				}
-				if(numberCanal == 3){
-						$('#thumbvideo1 .video_title').text(videoTitle[2][0]);
-						$('#thumbvideo2 .video_title').text(videoTitle[2][1]);
-						$('#thumbvideo3 .video_title').text(videoTitle[2][2]);
+						
+					//$('#thumbvideo1 .video_horario').text(videoTime[numberCanal-1][0]);
 					
-						$('#thumbvideo1 .video_desc').text(videoDescription[2][0]);
-						$('#thumbvideo2 .video_desc').text(videoDescription[2][1]);
-						$('#thumbvideo3 .video_desc').text(videoDescription[2][2]);
 				}
 				
     });
-    
+   
+	
     //mudando de vídeo quando o vídeo atual chega ao fim
     video.onended = function(){
         video_current+=1
@@ -172,5 +209,11 @@ function main(){
 		videoDescription[0] = new Array('Gameplay do jogo Chrono trigger','Gameplay do Mortal Kombat','Gameplay do GTA');
 		videoDescription[1] = new Array('Episódio do desenho Popeye','Episódio do Picapau','Episódio do desenho do Superman');
 		videoDescription[2] = new Array('Trailer do filme 2012','Trailer do filme Como se fosse a primeira vez','Trailer do filme Desventuras em série');
+	
+		
+	
+	
+	
+	
 } 
 jQuery(document).ready(main);
