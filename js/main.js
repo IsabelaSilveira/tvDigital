@@ -10,12 +10,24 @@ var allCH,                      //array com todos os canais
     numberCanal,                //número do canal
     volume = 1,                 //volume inicial
     btnUp,                      //aumentar volume
-    btnDown;                    //diminuir o volume
+    btnDown,                    //diminuir o volume
+		videoTitle,									//informações dos vídeos 
+		videoDescription,
+		vid2_infos,
+		vid3_infos;
 
 
 //função para mudança de canais
 function changeCH(){
-    video.src = allCH[ch_current+=1][video_current];
+    //video.src = allCH[ch_current+=1][video_current];
+	
+		if(numberCanal> ch_current+1){
+			video.src = allCH[ch_current+(numberCanal-1)][video_current];
+			console.log("Canal atual: ",ch_current+(numberCanal-1));
+		}else{
+			video.src = allCH[ch_current-(numberCanal-1)][video_current];
+			console.log("Canal atual: ",ch_current-(numberCanal-1));
+		}
 }
 
 function main(){
@@ -67,28 +79,63 @@ function main(){
         
         numberCanal = $(this).attr('data-number');
         $('.canalTitle').text('Canal '+numberCanal);
+			
+				$('#video').attr('data-video',numberCanal);
         
         console.log('Número do canal ', numberCanal);
         
         //chamando a função de troca de canais
         changeCH();
-        
+			
         //deixando o botão ativo
         $(".bt-canais").removeClass('active');
         $(this).addClass('active');
+			
+				//infos sobre os vídeos
+				if(numberCanal == 1){
+						$('#thumbvideo1 .video_title').text(videoTitle[0][0]);
+						$('#thumbvideo2 .video_title').text(videoTitle[0][1]);
+						$('#thumbvideo3 .video_title').text(videoTitle[0][2]);
+					
+						$('#thumbvideo1 .video_desc').text(videoDescription[0][0]);
+						$('#thumbvideo2 .video_desc').text(videoDescription[0][1]);
+						$('#thumbvideo3 .video_desc').text(videoDescription[0][2]);
+				}
+				if(numberCanal == 2){
+						$('#thumbvideo1 .video_title').text(videoTitle[1][0]);
+						$('#thumbvideo2 .video_title').text(videoTitle[1][1]);
+						$('#thumbvideo3 .video_title').text(videoTitle[1][2]);
+					
+						$('#thumbvideo1 .video_desc').text(videoDescription[1][0]);
+						$('#thumbvideo2 .video_desc').text(videoDescription[1][1]);
+						$('#thumbvideo3 .video_desc').text(videoDescription[1][2]);
+				}
+				if(numberCanal == 3){
+						$('#thumbvideo1 .video_title').text(videoTitle[2][0]);
+						$('#thumbvideo2 .video_title').text(videoTitle[2][1]);
+						$('#thumbvideo3 .video_title').text(videoTitle[2][2]);
+					
+						$('#thumbvideo1 .video_desc').text(videoDescription[2][0]);
+						$('#thumbvideo2 .video_desc').text(videoDescription[2][1]);
+						$('#thumbvideo3 .video_desc').text(videoDescription[2][2]);
+				}
+				
     });
     
     //mudando de vídeo quando o vídeo atual chega ao fim
     video.onended = function(){
         video_current+=1
         
+				numberCanal = $('#video').attr('data-video');
+			
         //se o vídeo atual for o último a lista de vídeo, retorna para o primeiro vídeo
-        if(video_current>=allCH[ch_current].length){
+        if(video_current>=allCH[ch_current=numberCanal-1].length){
             video_current = 0;
         }
         //passa a url do vídeo
-        video.src = allCH[ch_current][video_current];
-    }
+        video.src = allCH[ch_current=numberCanal-1][video_current];
+			console.log("O vídeo atual terminou, mudando para o próximo");
+    };
     
     //listando canais e vídeos
     allCH = new Array();
@@ -114,5 +161,16 @@ function main(){
     allCH.push(ch1);
     allCH.push(ch2);
     allCH.push(ch3);
+	
+	
+		videoTitle = new Array();
+		videoTitle[0] = new Array('Chrono Trigger','Mortal Kombat','Grand Theft Auto');
+		videoTitle[1] = new Array('Popeye','Picapau','Superman');
+		videoTitle[2] = new Array('2012 Trailer','50 first dates Trailer','A series of Unfortunate Events Trailer');
+	
+		videoDescription = new Array();
+		videoDescription[0] = new Array('Gameplay do jogo Chrono trigger','Gameplay do Mortal Kombat','Gameplay do GTA');
+		videoDescription[1] = new Array('Episódio do desenho Popeye','Episódio do Picapau','Episódio do desenho do Superman');
+		videoDescription[2] = new Array('Trailer do filme 2012','Trailer do filme Como se fosse a primeira vez','Trailer do filme Desventuras em série');
 } 
 jQuery(document).ready(main);
