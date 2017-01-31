@@ -5,6 +5,8 @@
 html, body {
   height: 100%; }
 
+body{ background: url('../img/background.jpg') repeat 0; background-size: cover;}
+
 /*
 |----------------------------------------------
 | Reset
@@ -13,7 +15,8 @@ html, body {
 .container {
   width: 80%;
   margin: 0 auto;
-  position: relative; }
+  position: relative; 
+}
 
 /* css micro clearfix */
 .cf:before, .cf:after {
@@ -38,9 +41,8 @@ li{ list-style: none;}
 |----------------------------------------------
 */
 #content-video{
-    width: 890px;
-    height: 480px;
-    background: #f2f2f2;
+    height: 510px;
+    background: #e9ecdd;
     position: relative;
 }
 #loader{
@@ -84,65 +86,63 @@ li{ list-style: none;}
 | sections
 |----------------------------------------------
 */
-.listCanais{ margin-bottom: 30px;}
+.listCanais{ margin: 30px 0 0px;}
 .btcanais{
-    background: #999;
-    padding: 5px 10px;
+    background: #274d59;
+    border-bottom: 3px solid transparent;
+    padding: 10px 20px;
     float: left;
-    margin-right: 15px;
+    margin-right: 2px;
     color: white;
+    font: 300 1.2em 'Ubuntu', sans-serif;
 }
-.btcanais:hover{ background: black; cursor: pointer;}
-
-.tabs{ display: none; height: 100%;}
-.tabs.active{display: block;}
+.btcanais:hover,
+.btcanais.active{ border-color: #abbfb2; cursor: pointer;}
 
 .video {
-  width: 640px;
-  height: 510px;
+  width: 70%;
+  height: 480px;
   float: left;
 }
-
-#down_volume{
-    background: #ccc;
-    color: black;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 30px;
-    text-align: center;
-    width: 50px;
-    height: 30px;
-    float: left;
-}
-#up_volume{
-    background: #ccc;
-    color: black;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 30px;
-    text-align: center;
-    width: 50px;
-    height: 30px;
-    float: left;
+#volume{
+    margin-top: 5px;
+    width: 200px;
     margin-left: 10px;
+    border: 0;
+    background: #274d59;
+    height: 3px;
+}
+#volume .ui-widget-header{
+    background: #abbfb2;
+}
+#volume .ui-slider-handle{
+    width: 10px;
+    height: 10px;
+    top: -5px;
+    border-radius: 100%;
 }
 
 .col-videos{
-    width: 240px;
-    margin-left: 10px;
+    width: 30%;
     height: 100%;
-    background: #ccc;
+    box-sizing: border-box;
+    background: #274d59;
+    padding: 20px;
+    float: right;
 }
 .thumbvideo{ 
     float: left; 
     width: 100%;
     height: 100px;
     margin-bottom: 15px;
-    background: #999;
-    color: white;
+    color: #abbfb2;
     display: block;
 }
-.thumbvideo:hover{ background: #1a1a1a; cursor: pointer;}
+.thumbvideo.active{ color: white;}
+.thumbvideo:hover{cursor: pointer; color: white;}
+.thumb{ margin-right: 15px;}
+.video_title{ font: bold 1.2em 'Ubuntu', sans-serif; margin-bottom: 10px; }
+.video_desc{ font: 300 .9em 'Ubuntu', sans-serif; margin-bottom: 10px; }
 
 /*
 |----------------------------------------------

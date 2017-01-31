@@ -7,76 +7,101 @@ var allCH,                      //array com todos os canais
     chClick,                    //identificador do botão do canal
     time_initial = new Date(),  //tempo inicial
     time_current,               //tempo atual
-    numberCanal = 1,            //número do canal
+    numberCanal,            //número do canal
     volume = 1,                 //volume inicial
     btnUp,                      //aumentar volume
     btnDown,                    //diminuir o volume
-		videoTitle,									//informações dos vídeos 
-		videoDescription,
-		videoTime,
-		horas,
-		minutos,
-		segundos,
-		vidMinutos,
-		vidSegundos;
+    videoTitle,									//informações dos vídeos 
+    videoDescription,
+    videoTime,
+    horas,
+    minutos,
+    segundos,
+    vidMinutos,
+    vidSegundos;
 
 var horario1, horario2, horaInicial, minutoInicial, segundoInicial;
 
 //tempo de duração de cada vídeo
 videoTime = new Array();
 videoTime[0] = new Array('06:48','05:53','30:11' );
-videoTime[1] = new Array('06:06','06:51','10:20' );
+videoTime[1] = new Array('02:06','02:51','10:20' );
 videoTime[2] = new Array('00:33','02:31','1:47' );
 
 //função para mudança de canais
 function changeCH(){
     //video.src = allCH[ch_current+=1][video_current];
 	
-		if(numberCanal> ch_current+1){
-			video.src = allCH[ch_current+(numberCanal-1)][video_current];
-			console.log("Canal atual: ",ch_current+(numberCanal-1));
-		}else{
-			video.src = allCH[ch_current-(numberCanal-1)][video_current];
-			console.log("Canal atual: ",ch_current-(numberCanal-1));
-		}
+    if(numberCanal> ch_current+1){
+        video.src = allCH[ch_current+(numberCanal-1)][video_current];
+        console.log("Canal atual: ",ch_current+(numberCanal-1));
+    }else{
+        video.src = allCH[ch_current-(numberCanal-1)][video_current];
+        console.log("Canal atual: ",ch_current-(numberCanal-1));
+    }
 }
 
 function horario1(){
-		horas = time_initial.getHours();
-		minutos = time_initial.getMinutes();
-		$('#thumbvideo1 .video_horario').text('Horário:'+horas+':'+minutos);
+    horas = time_initial.getHours();
+    minutos = time_initial.getMinutes();
+    $('#thumbvideo1 .video_horario').text('Horário:'+horas+':'+minutos);
 }
 horario1();
 function horario2(){
-		console.log(videoTime[numberCanal-1][0]);
-		horario1 = videoTime[numberCanal-1][0].split(':');
-		vidMinutos = parseInt(horario1[0]);
-		vidSegundos = parseInt(horario1[1]);
-		console.log('Horário do vídeo:'+vidMinutos+':'+vidSegundos);
+    horario1 = videoTime[numberCanal-1][0].split(':');
+    vidMinutos = parseInt(horario1[0]);
+    vidSegundos = parseInt(horario1[1]);
 
-		horaInicial = time_initial.getHours();
-		minutoInicial = time_initial.getMinutes();
-		segundoInicial = time_initial.getSeconds();
+    horaInicial = time_initial.getHours();
+    minutoInicial = time_initial.getMinutes();
+    segundoInicial = time_initial.getSeconds();
 
-		horas = horaInicial;
-		minutos = minutoInicial + vidMinutos;
-		segundos = segundoInicial + vidSegundos;
+    horas = horaInicial;
+    minutos = minutoInicial + vidMinutos;
+    segundos = segundoInicial + vidSegundos;
 
-		console.log('Somando os minutos: '+minutoInicial+' + '+vidMinutos+'='+ minutos)
-
-		if(segundos == 59){
-				segundos =00;
-				minutos +=1;
-		}
-		if(minutos == 59){
-				minutos =00;
-				horas +=1;
-		}
-		console.log('Horário do segundo programa:'+horas+':'+minutos+':'+segundos);
-		$('#thumbvideo2 .video_horario').text('Horário:'+horas+':'+minutos);
+    if(segundos > 59){
+        segundos = segundos - 59;
+        minutos +=1;
+    }
+    if(minutos > 59){
+        minutos = minutos - 59;
+        horas +=1;
+    }
+    $('#thumbvideo2 .video_horario').text('Horário:'+horas+':'+minutos);
 }
+function horario3(){
+    
+    var vidMinutos2, vidSegundos2;
+    
+    console.log(videoTime[numberCanal-1][0]);
+    horario1 = videoTime[numberCanal-1][0].split(':');
+    horario2 = videoTime[numberCanal-1][1].split(':');
+    
+    vidMinutos = parseInt(horario1[0]);
+    vidSegundos = parseInt(horario1[1]);
+    
+    vidMinutos2 = parseInt(horario2[0]);
+    vidSegundos2 = parseInt(horario2[1]);
 
-horario2();
+    horaInicial = time_initial.getHours();
+    minutoInicial = time_initial.getMinutes();
+    segundoInicial = time_initial.getSeconds();
+
+    horas = horaInicial;
+    minutos = minutoInicial + (vidMinutos+vidMinutos2);
+    segundos = segundoInicial + (vidSegundos+vidSegundos2);
+
+    if(segundos > 59){
+        segundos = segundos - 59;
+        minutos +=1;
+    }
+    if(minutos > 59){
+        minutos = minutos - 59;
+        horas +=1;
+    }
+    $('#thumbvideo3 .video_horario').text('Horário:'+horas+':'+minutos);
+}
 
 function main(){
     
@@ -90,21 +115,6 @@ function main(){
             changeCH();
         }
     }
-		
-		
-
-    //volume
-    btnUp = $('#up_volume');
-    btnDown = $('#down_volume');
-
-    btnUp.click(function(){
-        if(video.volume<1){ volume += 0.1; }
-        video.volume = volume;
-    });
-    btnDown.click(function(){
-        if(video.volume>0){ volume -= 0.1; }
-        video.volume = volume;
-    });
     
     //slide - customizado
     $( "#volume" ).slider({
@@ -122,6 +132,10 @@ function main(){
         video.volume = volumeAtual;
     }
     
+    numberCanal = 1;
+    horario2();
+    horario3();
+    
     //mudando de canal com o evento de click
     chClick = $(".btcanais").click(function(){
         //pegando o tempo atual
@@ -130,7 +144,7 @@ function main(){
         numberCanal = $(this).attr('data-number');
         $('.canalTitle').text('Canal '+numberCanal);
 			
-				$('#video').attr('data-video',numberCanal);
+        $('#video').attr('data-video',numberCanal);
         
         console.log('Número do canal ', numberCanal);
         
@@ -138,23 +152,24 @@ function main(){
         changeCH();
 			
         //deixando o botão ativo
-        $(".bt-canais").removeClass('active');
+        $(".btcanais").removeClass('active');
         $(this).addClass('active');
 			
-				//infos sobre os vídeos
-				if(numberCanal){
-						$('#thumbvideo1 .video_title').text(videoTitle[numberCanal-1][0]);
-						$('#thumbvideo2 .video_title').text(videoTitle[numberCanal-1][1]);
-						$('#thumbvideo3 .video_title').text(videoTitle[numberCanal-1][2]);
-					
-						$('#thumbvideo1 .video_desc').text(videoDescription[numberCanal-1][0]);
-						$('#thumbvideo2 .video_desc').text(videoDescription[numberCanal-1][1]);
-						$('#thumbvideo3 .video_desc').text(videoDescription[numberCanal-1][2]);
-					
-						
-					//$('#thumbvideo1 .video_horario').text(videoTime[numberCanal-1][0]);
-					
-				}
+            //infos sobre os vídeos
+            if(numberCanal){
+                $('#thumbvideo1 .video_title').text(videoTitle[numberCanal-1][0]);
+                $('#thumbvideo2 .video_title').text(videoTitle[numberCanal-1][1]);
+                $('#thumbvideo3 .video_title').text(videoTitle[numberCanal-1][2]);
+
+                $('#thumbvideo1 .video_desc').text(videoDescription[numberCanal-1][0]);
+                $('#thumbvideo2 .video_desc').text(videoDescription[numberCanal-1][1]);
+                $('#thumbvideo3 .video_desc').text(videoDescription[numberCanal-1][2]);
+
+
+                horario2();
+                horario3();
+
+            }
 				
     });
    
@@ -163,7 +178,7 @@ function main(){
     video.onended = function(){
         video_current+=1
         
-				numberCanal = $('#video').attr('data-video');
+        numberCanal = $('#video').attr('data-video');
 			
         //se o vídeo atual for o último a lista de vídeo, retorna para o primeiro vídeo
         if(video_current>=allCH[ch_current=numberCanal-1].length){
@@ -200,19 +215,15 @@ function main(){
     allCH.push(ch3);
 	
 	
-		videoTitle = new Array();
-		videoTitle[0] = new Array('Chrono Trigger','Mortal Kombat','Grand Theft Auto');
-		videoTitle[1] = new Array('Popeye','Picapau','Superman');
-		videoTitle[2] = new Array('2012 Trailer','50 first dates Trailer','A series of Unfortunate Events Trailer');
-	
-		videoDescription = new Array();
-		videoDescription[0] = new Array('Gameplay do jogo Chrono trigger','Gameplay do Mortal Kombat','Gameplay do GTA');
-		videoDescription[1] = new Array('Episódio do desenho Popeye','Episódio do Picapau','Episódio do desenho do Superman');
-		videoDescription[2] = new Array('Trailer do filme 2012','Trailer do filme Como se fosse a primeira vez','Trailer do filme Desventuras em série');
-	
-		
-	
-	
+    videoTitle = new Array();
+    videoTitle[0] = new Array('Chrono Trigger','Mortal Kombat','Grand Theft Auto');
+    videoTitle[1] = new Array('Popeye','Picapau','Superman');
+    videoTitle[2] = new Array('2012 Trailer','50 first dates Trailer','A series of Unfortunate Events Trailer');
+
+    videoDescription = new Array();
+    videoDescription[0] = new Array('Gameplay do jogo Chrono trigger','Gameplay do Mortal Kombat','Gameplay do GTA');
+    videoDescription[1] = new Array('Episódio do desenho Popeye','Episódio do Picapau','Episódio do desenho do Superman');
+    videoDescription[2] = new Array('Trailer do filme 2012','Trailer do filme Como se fosse a primeira vez','Trailer do filme Desventuras em série');
 	
 	
 } 
